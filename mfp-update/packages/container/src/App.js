@@ -31,18 +31,28 @@ const AppInner = () => {
     navigate('/dashboard'); // nach Login ins Dashboard
   }, [navigate]);
 
+
+  // (A) Hilfsfunktion für eindeutige IDs pro Warenkorb-Eintrag
+const genCartItemId = () =>
+  (globalThis.crypto?.randomUUID?.()    // moderne Browser
+    ? globalThis.crypto.randomUUID()
+    : `${Date.now()}_${Math.random().toString(16).slice(2)}`); // Fallback
+
   // ---------- Warenkorb-Zustand im Container ----------
   const [cartItems, setCartItems] = useState([]);
 
-  // Produkt hinzufügen (aus Products-MFE via Callback)
-  const addToCart = useCallback((product) => {
-    setCartItems((prev) => [...prev, product]);
-  }, []);
+  // (1) HINZUFÜGEN: Wir hängen cartItemId an das Produkt an
+const addToCart = useCallback((product) => {
+  setCartItems(prev => [
+    ...prev,
+    { ...product, cartItemId: genCartItemId() }, // <- NEU: eindeutige Instanz-ID
+  ]);
+}, []);
 
-  // Produkt entfernen (aus Basket-MFE via Callback)
-  const removeFromCart = useCallback((id) => {
-    setCartItems((prev) => prev.filter((p) => p.id !== id));
-  }, []);
+// (2) ENTFERNEN: Jetzt über cartItemId filtern (entfernt genau EINE Instanz)
+const removeFromCart = useCallback((cartItemId) => {
+  setCartItems(prev => prev.filter(p => p.cartItemId !== cartItemId));
+}, []);
 
   // Warenkorb leeren (aus Basket-MFE via Callback)
   const clearCart = useCallback(() => {

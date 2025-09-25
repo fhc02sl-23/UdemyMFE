@@ -14,11 +14,12 @@ export default function BasketList({ items = [], onRemove, onClear }) {
         <>
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {items.map((p) => (
-              <li key={p.id} style={{ marginBottom: 8 }}>
+              <li key={p.cartItemId} style={{ marginBottom: 8 }}>
                 <strong>{p.title}</strong> — {p.price?.toFixed(2)} €
                 <button
                   style={{ marginLeft: 12 }}
-                  onClick={() => onRemove && onRemove(p.id)}
+                  // (4) WICHTIG: nicht p.id, sondern p.cartItemId
+                  onClick={() => onRemove && onRemove(p.cartItemId)}
                 >
                   Entfernen
                 </button>
@@ -26,9 +27,7 @@ export default function BasketList({ items = [], onRemove, onClear }) {
             ))}
           </ul>
 
-          <p>
-            <strong>Summe:</strong> {total.toFixed(2)} €
-          </p>
+          <p><strong>Summe:</strong> {total.toFixed(2)} €</p>
 
           <button onClick={() => onClear && onClear()}>
             Warenkorb leeren
