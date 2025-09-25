@@ -26,7 +26,7 @@ export default function BasketCard({ id, name, price, onRemove }) {
           {name}
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
-          Price: €{price?.toFixed(2)}
+          Price: ${price?.toFixed(2)}
         </Typography>
       </CardContent>
       <CardActions>

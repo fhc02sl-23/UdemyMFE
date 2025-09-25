@@ -20,7 +20,7 @@ export default function ProductCard({ id, name, price, onAdd }) {
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">{name}</Typography>
         <Typography variant="h5" color="success.main" sx={{ mt: 1, fontWeight: 'bold' }}>
-          €{price.toFixed(2)}
+          ${price.toFixed(2)}
         </Typography>
       </CardContent>
       <CardActions>
