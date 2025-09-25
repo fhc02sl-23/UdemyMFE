@@ -1,5 +1,5 @@
 // packages/products/src/components/ProductList.js
-// Zweck: Hartkodierte Produktübersicht. Klick -> Container-State wächst.
+// Einfache hartkodierte Produktliste. Button ruft onAddToCart(product).
 
 import React from 'react';
 
@@ -16,7 +16,7 @@ export default function ProductList({ onAddToCart }) {
       <h2>Shop</h2>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {PRODUCTS.map((p) => (
-          <li key={p.id} style={{ marginBottom: 8 }}>
+          <li key={p.id} style={{ marginBottom: 10 }}>
             <strong>{p.title}</strong> — {p.price.toFixed(2)} €
             <button
               style={{ marginLeft: 12 }}

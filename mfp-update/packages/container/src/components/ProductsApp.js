@@ -1,41 +1,42 @@
 // packages/container/src/components/ProductsApp.js
-// Zweck: Adapter/Wrapper für das PRODUCTS-MFE, exakt wie Marketing/Auth.
-// - Erstellt ein <div ref> als Mount-Punkt
-// - Ruft products.mount(ref.current, options)
-// - Synchronisiert Routing (onNavigate / onParentNavigate)
-// - Übergibt "onAddToCart" Callback (Container-State-Funktion) ans MFE
+// Wrapper für das Products-MFE (React Router v6-kompatibel):
+// - mount() des Remotes aufrufen
+// - MFE -> Container: onNavigate
+// - Container -> MFE: onParentNavigate
+// - KEIN useHistory (das gibt es in v6 nicht)
 
-import React, { useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-// Import der federierten Mount-Funktion aus dem products-MFE
+import React, { useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { mount as mountProducts } from 'products/ProductsApp';
 
 export default function ProductsApp({ onAddToCart }) {
-  // (1) DOM-Container bereitstellen
-  const ref = useRef(null);
-  // (2) Browser-History vom Container
-  const history = useHistory();
+  const ref = useRef(null);                 // div, in das das MFE rendert
+  const location = useLocation();           // aktuelle Browser-URL
+  const navigate = useNavigate();           // zum Navigieren im Container
+  const onParentNavigateRef = useRef(null); // wird vom MFE geliefert
 
+  // 1) MFE einmal mounten
   useEffect(() => {
-    // (3) MFE mounten + Optionen übergeben
     const { onParentNavigate } = mountProducts(ref.current, {
-      // Startpfad: Container-URL → MFE-MemoryHistory
-      initialPath: history.location.pathname,
-      // Wenn MFE navigiert (z. B. /shop), dann Browser-URL anpassen
-      onNavigate: ({ pathname }) => {
-        if (history.location.pathname !== pathname) {
-          history.push(pathname);
+      initialPath: location.pathname,       // MFE startet auf aktueller URL
+      onNavigate: ({ pathname }) => {       // MFE meldet interne Navigation
+        if (location.pathname !== pathname) {
+          navigate(pathname);
         }
       },
-      // Wichtig: Callback für "In den Warenkorb"
-      onAddToCart, // => Container reicht seine Funktion 1:1 ins MFE
+      onAddToCart,                          // Callback vom Container nach unten durchreichen
     });
 
-    // (4) Container → MFE: Browser-URL-Wechsel (Back/Forward)
-    const unlisten = history.listen(onParentNavigate);
-    return unlisten;
-  }, [history, onAddToCart]);
+    onParentNavigateRef.current = onParentNavigate;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // nur beim ersten Rendern
 
-  // (5) Mount-Punkt für das MFE
+  // 2) Wenn sich die Browser-URL ändert (Back/Forward), MFE nachziehen
+  useEffect(() => {
+    if (onParentNavigateRef.current) {
+      onParentNavigateRef.current({ pathname: location.pathname });
+    }
+  }, [location]);
+
   return <div ref={ref} />;
 }

@@ -1,74 +1,42 @@
-// Zweck dieses Files:
-// - exportiert die mount(el, options)-Funktion für den Container
-// - kümmert sich um History/Router (Memory im eingebetteten Betrieb, Browser im Standalone-Dev)
-// - synchronisiert Routen: MFE -> Container (onNavigate) und Container -> MFE (onParentNavigate)
-// - reicht den Callback onAddToCart vom Container in die App durch
+// packages/container/src/components/ProductsApp.js
+// Wrapper für das Products-MFE (React Router v6-kompatibel):
+// - mount() des Remotes aufrufen
+// - MFE -> Container: onNavigate
+// - Container -> MFE: onParentNavigate
+// - KEIN useHistory (das gibt es in v6 nicht)
 
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { createMemoryHistory, createBrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
-import App from './App';
+import React, { useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { mount as mountProducts } from 'products/ProductsApp';
 
-/**
- * mount(el, options)
- * @param {HTMLElement} el - DOM-Container, in den das MFE gerendert wird
- * @param {Object} options
- *  - defaultHistory?: History   -> nur im Standalone-Dev (BrowserHistory)
- *  - initialPath?: string       -> Startpfad (vom Container übergeben)
- *  - onNavigate?: (loc) => void -> Callback: MFE teilt dem Container internen Routenwechsel mit
- *  - onAddToCart?: (product)    -> Callback: "In den Warenkorb" (kommt vom Container)
- * @returns {Object} API
- *  - onParentNavigate({ pathname }) -> Container teilt dem MFE Browser-URL-Änderungen mit
- */
-const mount = (el, { onNavigate, defaultHistory, initialPath, onAddToCart } = {}) => {
-  // 1) History wählen:
-  // - Wenn defaultHistory vorhanden: Standalone-Dev -> BrowserHistory verwenden
-  // - Sonst: eingebettet im Container -> MemoryHistory (mit initialPath)
-  const history =
-    defaultHistory ||
-    createMemoryHistory({
-      initialEntries: [initialPath || '/shop'], // falls Container keinen initialPath liefert
+export default function ProductsApp({ onAddToCart }) {
+  const ref = useRef(null);                 // div, in das das MFE rendert
+  const location = useLocation();           // aktuelle Browser-URL
+  const navigate = useNavigate();           // zum Navigieren im Container
+  const onParentNavigateRef = useRef(null); // wird vom MFE geliefert
+
+  // 1) MFE einmal mounten
+  useEffect(() => {
+    const { onParentNavigate } = mountProducts(ref.current, {
+      initialPath: location.pathname,       // MFE startet auf aktueller URL
+      onNavigate: ({ pathname }) => {       // MFE meldet interne Navigation
+        if (location.pathname !== pathname) {
+          navigate(pathname);
+        }
+      },
+      onAddToCart,                          // Callback vom Container nach unten durchreichen
     });
 
-  // 2) Wenn Container einen onNavigate-Callback übergeben hat,
-  //    rufen wir ihn bei JEDER internen Navigation auf (MFE -> Container)
-  if (onNavigate) {
-    history.listen((update) => {
-      const nextPathname = update.location.pathname;
-      onNavigate({ pathname: nextPathname });
-    });
-  }
+    onParentNavigateRef.current = onParentNavigate;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // nur beim ersten Rendern
 
-  // 3) React 18 Root erstellen und rendern
-  const root = createRoot(el);
-  root.render(
-    <Router history={history}>
-      {/* Wir geben den onAddToCart-Callback in die React-App weiter */}
-      <App onAddToCart={onAddToCart} />
-    </Router>
-  );
+  // 2) Wenn sich die Browser-URL ändert (Back/Forward), MFE nachziehen
+  useEffect(() => {
+    if (onParentNavigateRef.current) {
+      onParentNavigateRef.current({ pathname: location.pathname });
+    }
+  }, [location]);
 
-  // 4) API an den Container zurückgeben:
-  //    Container ruft das auf, wenn sich die Browser-URL ändert (Back/Forward)
-  return {
-    onParentNavigate({ pathname: containerPathname }) {
-      const { pathname } = history.location;
-      if (pathname !== containerPathname) {
-        history.push(containerPathname); // MFE intern nachziehen
-      }
-    },
-  };
-};
-
-// 5) Standalone-Entwicklung: Wenn direkt im Browser geöffnet (nicht im Container),
-//    mounten wir sofort und nehmen BrowserHistory. WICHTIG: ID hier korrekt für PRODUCTS:
-if (process.env.NODE_ENV === 'development') {
-  const devRoot = document.querySelector('#_products-dev-root'); // ← eigene Dev-Root-ID
-  if (devRoot) {
-    mount(devRoot, { defaultHistory: createBrowserHistory() });
-  }
+  return <div ref={ref} />;
 }
-
-// 6) Für den Container exportieren
-export { mount };
