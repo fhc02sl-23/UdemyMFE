@@ -1,19 +1,26 @@
+// packages/marketing/src/components/Landing.js
 import React from 'react';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import MaterialLink from '@mui/material/Link';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Chip,
+  Container,
+  Grid,
+  Typography,
+  Link as MaterialLink,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Box } from '@mui/material';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import ShieldIcon from '@mui/icons-material/Shield';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <MaterialLink component={Link} to="/" color="inherit" sx={{ textDecoration: 'none' }}>
         Your Website
@@ -24,124 +31,160 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Album() {
+export default function Landing() {
   return (
-    <React.Fragment>
+    <>
       <main>
-        {/* Hero unit */}
+        {/* HERO – finance look */}
         <Box
           sx={{
-            backgroundColor: 'background.paper',
-            pt: 8,
-            pb: 6,
+            bgcolor: 'background.paper',
+            background:
+              'linear-gradient(135deg, rgba(3,136,229,.08) 0%, rgba(0,187,126,.08) 100%)',
+            borderBottom: (t) => `1px solid ${t.palette.divider}`,
+            pt: { xs: 8, md: 10 },
+            pb: { xs: 6, md: 8 },
           }}
         >
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Home Page
+          <Container maxWidth="md" sx={{ textAlign: 'center' }}>
+            <Typography component="h1" variant="h3" color="text.primary" gutterBottom>
+              Invest smarter. Stay in control.
             </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 720, mx: 'auto' }}>
+              Track your portfolio, explore markets, and monitor performance in real-time.
+              Microfrontends keep features independent and fast.
             </Typography>
-            <Box sx={{ mt: 4 }}>
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item>
-                  <Link to="/pricing" style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" color="primary">
-                      Pricing
-                    </Button>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/pricing" style={{ textDecoration: 'none' }}>
-                    <Button variant="outlined" color="primary">
-                      Pricing
-                    </Button>
-                  </Link>
-                </Grid>
+
+            {/* KPI chips */}
+            <Grid container spacing={2} sx={{ mt: 4 }} justifyContent="center">
+              <Grid item>
+                <Chip
+                  label="Portfolio Value: $12,000"
+                  icon={<PieChartIcon />}
+                  sx={{ fontWeight: 600 }}
+                  color="default"
+                  variant="outlined"
+                />
               </Grid>
-            </Box>
+              <Grid item>
+                <Chip
+                  label="Day P/L: +$3,200"
+                  icon={<TrendingUpIcon />}
+                  sx={{ fontWeight: 600, color: 'success.main', borderColor: 'success.light' }}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item>
+                <Chip label="Holdings: 7" sx={{ fontWeight: 600 }} variant="outlined" />
+              </Grid>
+            </Grid>
+
+            {/* CTA buttons */}
+            <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}>
+              <Grid item>
+                <Button component={Link} to="/shop" variant="contained">
+                  Explore Markets
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button component={Link} to="/dashboard" variant="outlined">
+                  Open Dashboard
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button component={Link} to="/pricing" variant="text">
+                  View Pricing
+                </Button>
+              </Grid>
+            </Grid>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
+
+        {/* FEATURE CARDS */}
+        <Container sx={{ py: 8 }} maxWidth="lg">
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <CardMedia
-                    sx={{
-                      pt: '56.25%', // 16:9
-                    }}
-                    image={`https://picsum.photos/400/300?random=${card}`}
-                    title="Image title"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+            <Grid item xs={12} md={4}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  sx={{ pt: '56.25%' }}
+                  image="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop"
+                  title="Markets"
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Markets
+                  </Typography>
+                  <Typography color="text.secondary">
+                    Browse assets and add them to your portfolio. The Products MFE powers this
+                    view independently.
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ px: 2, pb: 2 }}>
+                  <Button size="small" component={Link} to="/shop">
+                    Go to Markets
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  sx={{ pt: '56.25%' }}
+                  image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop"
+                  title="Portfolio"
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Portfolio
+                  </Typography>
+                  <Typography color="text.secondary">
+                    Manage positions and totals in one place. Basket MFE syncs state via callbacks
+                    from the Host.
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ px: 2, pb: 2 }}>
+                  <Button size="small" component={Link} to="/cart">
+                    Open Portfolio
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  sx={{ pt: '56.25%' }}
+                  image="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=1200&auto=format&fit=crop"
+                  title="Secure"
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Secure & Modular
+                  </Typography>
+                  <Typography color="text.secondary">
+                    Auth, Dashboard, and Markets are isolated MFEs, deployed independently and
+                    federated at runtime.
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ px: 2, pb: 2 }}>
+                  <Button size="small" component={Link} to="/auth/signin" startIcon={<ShieldIcon />}>
+                    Sign in
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <Box
-        component="footer"
-        sx={{
-          backgroundColor: 'background.paper',
-          py: 6,
-        }}
-      >
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
+
+      {/* FOOTER */}
+      <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+        <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
+          Built with Module Federation – scale features without redeploying the whole app.
         </Typography>
         <Copyright />
       </Box>
-      {/* End footer */}
-    </React.Fragment>
+    </>
   );
 }

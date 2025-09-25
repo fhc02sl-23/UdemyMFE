@@ -1,189 +1,198 @@
+// packages/marketing/src/components/Pricing.js
 import React from 'react';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Grid from '@mui/material/Grid';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  Link as MaterialLink,
+  Typography,
+  Chip,
+} from '@mui/material';
 import StarIcon from '@mui/icons-material/StarBorder';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
+import ShieldIcon from '@mui/icons-material/Shield';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PieChartIcon from '@mui/icons-material/PieChart';
 import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <MaterialLink component={RouterLink} to="/" color="inherit" sx={{ textDecoration: 'none' }}>
         Your Website
-      </Link>{' '}
+      </MaterialLink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
 
+// Finance-centric tiers
 const tiers = [
   {
-    title: 'Free',
+    title: 'Starter',
     price: '0',
+    tagline: 'Get going',
     description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
+      'Real-time quotes (delayed)',
+      'Basic portfolio tracking',
+      'Watchlists (up to 2)',
       'Email support',
     ],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
+    cta: 'Start for free',
+    variant: 'outlined',
+    to: '/auth/signup',
+    badge: null,
+  },
+  {
+    title: 'Trader',
+    tagline: 'Most popular',
+    price: '15',
+    description: [
+      'Live quotes',
+      'Unlimited watchlists',
+      'Advanced charting',
+      'Export to CSV',
+      'Priority email support',
+    ],
+    cta: 'Start 14-day trial',
+    variant: 'contained',
+    to: '/auth/signup',
+    badge: 'Best value',
+    highlight: true,
   },
   {
     title: 'Pro',
-    subheader: 'Most popular',
-    price: '15',
+    price: '39',
+    tagline: 'For power users',
     description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
+      'Backtesting & alerts',
+      'Multi-portfolio analytics',
+      'API access',
+      'Role-based teams',
+      'SLA & phone support',
     ],
-    buttonText: 'Get started',
-    buttonVariant: 'contained',
-  },
-  {
-    title: 'Enterprise',
-    price: '30',
-    description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
-    ],
-    buttonText: 'Contact us',
-    buttonVariant: 'outlined',
+    cta: 'Contact sales',
+    variant: 'outlined',
+    to: '/auth/signin',
+    badge: null,
   },
 ];
 
 const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: [
-      'Cool stuff',
-      'Random feature',
-      'Team feature',
-      'Developer stuff',
-      'Another one',
-    ],
-  },
-  {
-    title: 'Resources',
-    description: [
-      'Resource',
-      'Resource name',
-      'Another resource',
-      'Final resource',
-    ],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
+  { title: 'Product', description: ['Markets', 'Portfolio', 'Dashboard', 'Mobile'] },
+  { title: 'Company', description: ['About', 'Careers', 'Contact', 'Blog'] },
+  { title: 'Resources', description: ['Docs', 'API', 'Status', 'Community'] },
+  { title: 'Legal', description: ['Privacy', 'Terms'] },
 ];
 
 export default function Pricing() {
   return (
-    <React.Fragment>
-      {/* Hero unit */}
-      <Container maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          Pricing
+    <>
+      {/* HERO */}
+      <Container maxWidth="sm" component="section" sx={{ pt: 8, pb: 6, textAlign: 'center' }}>
+        <Typography component="h1" variant="h3" gutterBottom>
+          Simple pricing for serious investing
         </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Quickly build an effective pricing table for your potential customers
-          with this layout. It&apos;s built with default Material-UI components
-          with little customization.
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 3 }}>
+          Choose a plan that fits your strategy. Upgrade or downgrade any time.
         </Typography>
+
+        {/* Finance badges */}
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Chip icon={<TrendingUpIcon />} label="Live markets" variant="outlined" />
+          <Chip icon={<PieChartIcon />} label="Portfolio analytics" variant="outlined" />
+          <Chip icon={<ShieldIcon />} label="Secure & modular MFEs" variant="outlined" />
+        </Box>
       </Container>
-      {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
+
+      {/* TIERS */}
+      <Container maxWidth="md" component="section">
+        <Grid container spacing={5} alignItems="stretch">
           {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
             <Grid
               item
               key={tier.title}
               xs={12}
-              sm={tier.title === 'Enterprise' ? 12 : 6}
+              sm={tier.title === 'Pro' ? 12 : 6}
               md={4}
+              sx={{ display: 'flex' }}
             >
-              <Card>
+              <Card
+                sx={{
+                  flex: 1,
+                  borderWidth: tier.highlight ? 2 : 1,
+                  borderStyle: 'solid',
+                  borderColor: (t) =>
+                    tier.highlight ? t.palette.primary.main : t.palette.divider,
+                }}
+                elevation={tier.highlight ? 2 : 0}
+              >
                 <CardHeader
                   title={tier.title}
-                  subheader={tier.subheader}
+                  subheader={tier.tagline}
+                  action={tier.highlight ? <StarIcon color="primary" /> : null}
                   titleTypographyProps={{ align: 'center' }}
                   subheaderTypographyProps={{ align: 'center' }}
-                  action={tier.title === 'Pro' ? <StarIcon /> : null}
                   sx={{
-                    backgroundColor: (theme) =>
-                      theme.palette.mode === 'light'
-                        ? theme.palette.grey[200]
-                        : theme.palette.grey[700],
+                    bgcolor: (t) =>
+                      t.palette.mode === 'light' ? t.palette.grey[100] : t.palette.grey[800],
                   }}
                 />
+
                 <CardContent>
                   <Box
                     sx={{
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'baseline',
+                      gap: 1,
                       mb: 2,
                     }}
                   >
-                    <Typography component="h2" variant="h3" color="textPrimary">
+                    <Typography component="h2" variant="h3">
                       ${tier.price}
                     </Typography>
-                    <Typography variant="h6" color="textSecondary">
+                    <Typography variant="h6" color="text.secondary">
                       /mo
                     </Typography>
                   </Box>
-                  <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+
+                  {tier.badge && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+                      <Chip color="primary" size="small" label={tier.badge} />
+                    </Box>
+                  )}
+
+                  <Box component="ul" sx={{ m: 0, p: 0, listStyle: 'none' }}>
                     {tier.description.map((line) => (
                       <Typography
+                        key={line}
                         component="li"
                         variant="subtitle1"
                         align="center"
-                        key={line}
+                        sx={{ py: 0.5 }}
                       >
                         {line}
                       </Typography>
                     ))}
-                  </ul>
+                  </Box>
                 </CardContent>
-                <CardActions>
+
+                <CardActions sx={{ px: 2, pb: 2 }}>
                   <Button
                     component={RouterLink}
-                    to="/auth/signup"
+                    to={tier.to}
                     fullWidth
+                    variant={tier.variant}
                     color="primary"
-                    variant={tier.buttonVariant}
                   >
-                    {tier.buttonText}
+                    {tier.cta}
                   </Button>
                 </CardActions>
               </Card>
@@ -191,31 +200,32 @@ export default function Pricing() {
           ))}
         </Grid>
       </Container>
-      {/* Footer */}
+
+      {/* FOOTER */}
       <Container
         maxWidth="md"
         component="footer"
         sx={{
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          borderTop: (t) => `1px solid ${t.palette.divider}`,
           mt: 8,
-          py: [3, 6],
+          py: { xs: 3, sm: 6 },
         }}
       >
         <Grid container spacing={4} justifyContent="space-evenly">
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 {footer.title}
               </Typography>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+              <Box component="ul" sx={{ m: 0, p: 0, listStyle: 'none' }}>
                 {footer.description.map((item) => (
                   <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
+                    <MaterialLink component={RouterLink} to="#" variant="subtitle1" color="text.secondary">
                       {item}
-                    </Link>
+                    </MaterialLink>
                   </li>
                 ))}
-              </ul>
+              </Box>
             </Grid>
           ))}
         </Grid>
@@ -223,7 +233,6 @@ export default function Pricing() {
           <Copyright />
         </Box>
       </Container>
-      {/* End footer */}
-    </React.Fragment>
+    </>
   );
 }

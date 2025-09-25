@@ -1,32 +1,35 @@
-// packages/products/src/components/ProductList.js
-// Einfache hartkodierte Produktliste. Button ruft onAddToCart(product).
-
 import React from 'react';
+import { Box, Grid, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import ProductCard from './ProductCard';
 
 const PRODUCTS = [
-  { id: 1, title: 'Cupcake', price: 5.0 },
-  { id: 2, title: 'Donut',   price: 3.0 },
-  { id: 3, title: 'Cookie',  price: 2.5 },
-  { id: 4, title: 'Brownie', price: 4.0 },
+  { id: 'AAPL', name: 'Apple Inc.',     price: 182.35 },
+  { id: 'MSFT', name: 'Microsoft Corp', price: 431.62 },
+  { id: 'TSLA', name: 'Tesla Inc.',     price: 245.18 },
+  { id: 'NVDA', name: 'NVIDIA Corp',    price: 118.22 },
 ];
+
+const Wrap = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(4, 3),
+}));
 
 export default function ProductList({ onAddToCart }) {
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Shop</h2>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+    <Wrap>
+      <Typography variant="h4" gutterBottom>Markets</Typography>
+      <Grid container spacing={3}>
         {PRODUCTS.map((p) => (
-          <li key={p.id} style={{ marginBottom: 10 }}>
-            <strong>{p.title}</strong> — {p.price.toFixed(2)} €
-            <button
-              style={{ marginLeft: 12 }}
-              onClick={() => onAddToCart && onAddToCart(p)}
-            >
-              In den Warenkorb
-            </button>
-          </li>
+          <Grid item key={p.id} xs={12} sm={6} md={3}>
+            <ProductCard
+              id={p.id}
+              name={p.name}
+              price={p.price}
+              onAdd={() => onAddToCart && onAddToCart(p)}
+            />
+          </Grid>
         ))}
-      </ul>
-    </div>
+      </Grid>
+    </Wrap>
   );
 }

@@ -1,39 +1,60 @@
 // packages/basket/src/components/BasketList.js
 import React from 'react';
+import { Grid, Box, Typography, Button } from '@mui/material';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import BasketCard from './BasketCard';
 
 export default function BasketList({ items = [], onRemove, onClear }) {
   const total = items.reduce((sum, p) => sum + (p.price || 0), 0);
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Warenkorb</h2>
+    <Box sx={{ px: 3, py: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Portfolio
+      </Typography>
 
       {items.length === 0 ? (
-        <p>Der Warenkorb ist leer.</p>
+        <Typography variant="body1" color="text.secondary">
+          No positions yet. Add assets from <strong>Markets</strong>.
+        </Typography>
       ) : (
         <>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <Grid container spacing={3}>
             {items.map((p) => (
-              <li key={p.cartItemId} style={{ marginBottom: 8 }}>
-                <strong>{p.title}</strong> — {p.price?.toFixed(2)} €
-                <button
-                  style={{ marginLeft: 12 }}
-                  // (4) WICHTIG: nicht p.id, sondern p.cartItemId
-                  onClick={() => onRemove && onRemove(p.cartItemId)}
-                >
-                  Entfernen
-                </button>
-              </li>
+              <Grid item key={p.cartItemId} xs={12} sm={6} md={4}>
+                <BasketCard
+                  id={p.cartItemId} // Wichtig: eindeutige ID für Remove
+                  name={p.name}
+                  price={p.price}
+                  onRemove={onRemove}
+                />
+              </Grid>
             ))}
-          </ul>
+          </Grid>
 
-          <p><strong>Summe:</strong> {total.toFixed(2)} €</p>
-
-          <button onClick={() => onClear && onClear()}>
-            Warenkorb leeren
-          </button>
+          {/* Summary row */}
+          <Box
+            sx={{
+              mt: 4,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h6">
+              <strong>Total:</strong> {total.toFixed(2)} $
+            </Typography>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteSweepIcon />}
+              onClick={() => onClear && onClear()}
+            >
+              Clear Portfolio
+            </Button>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 }

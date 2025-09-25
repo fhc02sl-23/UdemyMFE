@@ -1,115 +1,121 @@
 <template>
   <div class="p-grid p-fluid dashboard">
+    <!-- ===== KPIs (pretty finance cards) ===== -->
     <div class="p-col-12 p-lg-4">
-      <div class="card summary">
-        <span class="title">Users</span>
-        <span class="detail">Number of visitors</span>
-        <span class="count visitors">12</span>
+      <div class="kpi">
+        <div>
+          <div class="kpi-title">Portfolio Value</div>
+          <div class="kpi-sub">Market value of holdings</div>
+        </div>
+        <div class="kpi-value positive">$12,000</div>
       </div>
     </div>
+
     <div class="p-col-12 p-lg-4">
-      <div class="card summary">
-        <span class="title">Sales</span>
-        <span class="detail">Number of purchases</span>
-        <span class="count purchases">534</span>
+      <div class="kpi">
+        <div>
+          <div class="kpi-title">Open Positions</div>
+          <div class="kpi-sub">Number of holdings</div>
+        </div>
+        <div class="kpi-value">7</div>
       </div>
     </div>
+
     <div class="p-col-12 p-lg-4">
-      <div class="card summary">
-        <span class="title">Revenue</span>
-        <span class="detail">Income for today</span>
-        <span class="count revenue">$3,200</span>
+      <div class="kpi">
+        <div>
+          <div class="kpi-title">Day P/L</div>
+          <div class="kpi-sub">Profit / Loss today</div>
+        </div>
+        <!-- use 'negative' instead of 'positive' to color red -->
+        <div class="kpi-value positive">+ $3,200</div>
+      </div>
+    </div>
+
+    <!-- ===== Asset highlight rows (BTC / ETH / AAPL / TSLA) ===== -->
+    <div class="p-col-12 p-md-6 p-xl-3">
+      <div class="highlight-box">
+        <div class="initials" style="background-color:#1976d2;color:#0b3b73">
+          <span>BTC</span>
+        </div>
+        <div class="highlight-details">
+          <i class="pi pi-chart-line"></i>
+          <span>24h Change</span>
+          <span class="count">+3.4%</span>
+        </div>
       </div>
     </div>
 
     <div class="p-col-12 p-md-6 p-xl-3">
       <div class="highlight-box">
-        <div class="initials" style="background-color: #007be5; color: #00448f">
-          <span>TV</span>
+        <div class="initials" style="background-color:#ef6262;color:#a83d3b">
+          <span>ETH</span>
         </div>
         <div class="highlight-details">
-          <i class="pi pi-search"></i>
-          <span>Total Queries</span>
-          <span class="count">523</span>
-        </div>
-      </div>
-    </div>
-    <div class="p-col-12 p-md-6 p-xl-3">
-      <div class="highlight-box">
-        <div class="initials" style="background-color: #ef6262; color: #a83d3b">
-          <span>TI</span>
-        </div>
-        <div class="highlight-details">
-          <i class="pi pi-question-circle"></i>
-          <span>Total Issues</span>
-          <span class="count">81</span>
-        </div>
-      </div>
-    </div>
-    <div class="p-col-12 p-md-6 p-xl-3">
-      <div class="highlight-box">
-        <div class="initials" style="background-color: #20d077; color: #038d4a">
-          <span>OI</span>
-        </div>
-        <div class="highlight-details">
-          <i class="pi pi-filter"></i>
-          <span>Open Issues</span>
-          <span class="count">21</span>
-        </div>
-      </div>
-    </div>
-    <div class="p-col-12 p-md-6 p-xl-3">
-      <div class="highlight-box">
-        <div class="initials" style="background-color: #f9c851; color: #b58c2b">
-          <span>CI</span>
-        </div>
-        <div class="highlight-details">
-          <i class="pi pi-check"></i>
-          <span>Closed Issues</span>
-          <span class="count">60</span>
+          <i class="pi pi-chart-line"></i>
+          <span>24h Change</span>
+          <span class="count">-1.2%</span>
         </div>
       </div>
     </div>
 
+    <div class="p-col-12 p-md-6 p-xl-3">
+      <div class="highlight-box">
+        <div class="initials" style="background-color:#20d077;color:#038d4a">
+          <span>AAPL</span>
+        </div>
+        <div class="highlight-details">
+          <i class="pi pi-arrow-right-arrow-left"></i>
+          <span>Day Move</span>
+          <span class="count">+0.8%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-md-6 p-xl-3">
+      <div class="highlight-box">
+        <div class="initials" style="background-color:#f9c851;color:#b58c2b">
+          <span>TSLA</span>
+        </div>
+        <div class="highlight-details">
+          <i class="pi pi-arrow-right-arrow-left"></i>
+          <span>Day Move</span>
+          <span class="count">+1.5%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Tasks ===== -->
     <div class="p-col-12 p-md-6 p-lg-4">
       <Panel header="Tasks" style="height: 100%">
         <ul class="task-list">
           <li>
             <Checkbox name="task" value="reports" v-model="tasksCheckbox" />
-            <span class="task-name">Sales Reports</span>
+            <span class="task-name">Rebalance portfolio </span>
             <i class="pi pi-chart-bar" />
           </li>
           <li>
             <Checkbox name="task" value="invoices" v-model="tasksCheckbox" />
-            <span class="task-name">Pay Invoices</span>
+            <span class="task-name">Review dividends </span>
             <i class="pi pi-dollar" />
           </li>
           <li>
-            <Checkbox name="task" value="dinner" v-model="tasksCheckbox" />
-            <span class="task-name">Dinner with Tony</span>
-            <i class="pi pi-user" />
-          </li>
-          <li>
             <Checkbox name="task" value="meeting" v-model="tasksCheckbox" />
-            <span class="task-name">Client Meeting</span>
+            <span class="task-name">Call broker </span>
             <i class="pi pi-users" />
           </li>
           <li>
-            <Checkbox name="task" value="theme" v-model="tasksCheckbox" />
-            <span class="task-name">New Theme</span>
-            <i class="pi pi-globe" />
-          </li>
-          <li>
             <Checkbox name="task" value="flight" v-model="tasksCheckbox" />
-            <span class="task-name">Flight Ticket</span>
+            <span class="task-name">Export tax report </span>
             <i class="pi pi-briefcase" />
           </li>
         </ul>
       </Panel>
     </div>
 
+    <!-- ===== Contact form (kept as example UI) ===== -->
     <div class="p-col-12 p-md-6 p-lg-4 p-fluid contact-form">
-      <Panel header="Contact Us">
+      <Panel header="Contact Advisor">
         <div class="p-grid">
           <div class="p-col-12">
             <Dropdown
@@ -135,37 +141,7 @@
       </Panel>
     </div>
 
-    <!-- <div class="p-col-12 p-lg-4 contacts">
-      <Panel header="Contacts">
-        <ul>
-          <li>
-            <button class="p-link">
-              <span class="name">Claire Williams</span>
-              <span class="email">clare@primevue.com</span>
-            </button>
-          </li>
-          <li>
-            <button class="p-link">
-              <span class="name">Jason Dourne</span>
-              <span class="email">jason@primevue.com</span>
-            </button>
-          </li>
-          <li>
-            <button class="p-link">
-              <span class="name">Jane Davidson</span>
-              <span class="email">jane@primevue.com</span>
-            </button>
-          </li>
-          <li>
-            <button class="p-link">
-              <span class="name">Tony Corleone</span>
-              <span class="email">tony@primevue.com</span>
-            </button>
-          </li>
-        </ul>
-      </Panel>
-    </div> -->
-
+    <!-- ===== Activity ===== -->
     <div class="p-col-12 p-lg-4">
       <Panel header="Activity" style="height: 100%">
         <div class="activity-header">
@@ -191,7 +167,7 @@
           <li>
             <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
               <h5 class="activity p-m-0">Tax</h5>
-              <div class="count" style="background-color: #f9c851">$250</div>
+              <div class="count" style="background-color:#f9c851">$250</div>
             </div>
             <ProgressBar :value="24" :showValue="false" />
           </li>
@@ -199,27 +175,19 @@
       </Panel>
     </div>
 
+    <!-- ===== Recent Sales / Holdings table (demo) ===== -->
     <div class="p-col-12 p-lg-6">
       <div class="card">
-        <h1 style="font-size: 16px">Recent Sales</h1>
+        <h1 style="font-size:16px">Recent Trades</h1>
         <DataTable
           :value="products"
           class="p-datatable-customers"
           :rows="5"
-          style="margin-bottom: 20px"
+          style="margin-bottom:20px"
           :paginator="true"
         >
-          <Column>
-            <template #header> Logo </template>
-            <template #body="slotProps">
-              <img
-                :src="'assets/layout/images/product/' + slotProps.data.image"
-                :alt="slotProps.data.image"
-                width="50"
-              />
-            </template>
-          </Column>
-          <Column field="name" header="Name" :sortable="true"></Column>
+
+          <Column field="name" header="Ticker" :sortable="true"></Column>
           <Column field="category" header="Category" :sortable="true"></Column>
           <Column field="price" header="Price" :sortable="true">
             <template #body="slotProps">
@@ -227,23 +195,17 @@
             </template>
           </Column>
           <Column>
-            <template #header> View </template>
+            <template #header> Actions </template>
             <template #body>
-              <Button
-                icon="pi pi-search"
-                type="button"
-                class="p-button-success p-mr-2 p-mb-1"
-              ></Button>
-              <Button
-                icon="pi pi-times"
-                type="button"
-                class="p-button-danger p-mb-1"
-              ></Button>
+              <Button icon="pi pi-search" class="p-button-success p-mr-2 p-mb-1" />
+              <Button icon="pi pi-times" class="p-button-danger p-mb-1" />
             </template>
           </Column>
         </DataTable>
       </div>
     </div>
+
+    <!-- ===== Chart ===== -->
     <div class="p-col-12 p-lg-6">
       <div class="card">
         <Chart type="line" :data="lineData" />
@@ -291,39 +253,25 @@ export default {
         { name: 'Paris', code: 'PRS' },
       ],
       dropdownCity: null,
-      options: {
-        defaultDate: '2019-01-01',
-        header: {
-          left: 'prev,next',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        },
-        editable: true,
-      },
-      events: null,
-      products: null,
-      selectedProducts: null,
+      products: [
+        { image: 'bamboo-watch.jpg', name: 'AAPL', category: 'Equity', price: 174.1 },
+        { image: 'black-watch.jpg', name: 'TSLA', category: 'Equity', price: 214.7 },
+        { image: 'blue-band.jpg', name: 'BTC', category: 'Crypto', price: 62431.0 },
+        { image: 'blue-t-shirt.jpg', name: 'ETH', category: 'Crypto', price: 2975.3 },
+      ],
       lineData: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-        ],
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
         datasets: [
           {
-            label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: 'Portfolio NAV',
+            data: [65, 59, 80, 81, 56, 55, 70],
             fill: false,
             backgroundColor: '#2f4860',
             borderColor: '#2f4860',
           },
           {
-            label: 'Second Dataset',
-            data: [28, 48, 40, 19, 86, 27, 90],
+            label: 'Benchmark',
+            data: [60, 61, 75, 68, 60, 57, 62],
             fill: false,
             backgroundColor: '#00bb7e',
             borderColor: '#00bb7e',
@@ -334,419 +282,127 @@ export default {
   },
   methods: {
     formatCurrency(value) {
-      return value.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      });
+      return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@media screen and (max-width: 960px) {
-  ::v-deep(.p-datatable) {
-    &.p-datatable-customers {
-      .p-datatable-thead > tr > th,
-      .p-datatable-tfoot > tr > td {
-        display: none !important;
-      }
+/* ---------- Small spacing improvement between grid items ---------- */
+.p-grid > [class*="p-col-"] { margin-bottom: 12px; }
 
-      .p-datatable-tbody > tr {
-        border-bottom: 1px solid #dee2e6;
-        > td {
-          text-align: left;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 0 none !important;
-          width: 100% !important;
-          float: left;
-          clear: left;
-          border: 0 none;
-
-          .p-column-title {
-            padding: 0.4rem;
-            min-width: 30%;
-            display: inline-block;
-            margin: -0.4rem 1rem -0.4rem -0.4rem;
-            font-weight: bold;
-          }
-
-          .p-progressbar {
-            margin-top: 0.5rem;
-          }
-        }
-      }
-    }
-  }
-}
-$fontSize: 14px;
-$bodyBgColor: #edf0f5;
-$textColor: #333333;
-$textSecondaryColor: #707070;
-$borderRadius: 3px;
-$dividerColor: #e3e3e3;
-$transitionDuration: 0.2s;
-$maskBgColor: #424242;
-$focusShadowColor: #8dcdff;
-
-/* Menu Common */
-$menuitemBadgeBgColor: #007be5;
-$menuitemBadgeColor: #ffffff;
-$submenuFontSize: 13px;
-$menuitemActiveRouteColor: #1fa1fc;
-
-/* Menu Light */
-$menuBgColorFirst: #f3f4f9;
-$menuBgColorLast: #d7dbe8;
-$menuitemColor: #232428;
-$menuitemHoverColor: #0388e5;
-$menuitemActiveColor: #0388e5;
-$menuitemActiveBgColor: #ffffff;
-$menuitemBorderColor: rgba(207, 211, 224, 0.6);
-
-/* Menu Dark */
-$menuDarkBgColorFirst: #4d505b;
-$menuDarkBgColorLast: #3b3e47;
-$menuitemDarkColor: #ffffff;
-$menuitemDarkHoverColor: #0388e5;
-$menuitemDarkActiveColor: #0388e5;
-$menuitemDarkActiveBgColor: #2e3035;
-$menuitemDarkBorderColor: rgba(52, 56, 65, 0.6);
-
-/* Topbar */
-$topbarLeftBgColor: #0388e5;
-$topbarRightBgColor: #07bdf4;
-$topbarItemBadgeBgColor: #ef6262;
-$topbarItemBadgeColor: #ffffff;
-$topbarItemColor: #ffffff;
-$topbarItemHoverColor: #c3e8fb;
-$topbarSearchInputBorderBottomColor: #ffffff;
-$topbarSearchInputColor: #ffffff;
-
+/* ---------- Cards ---------- */
 .card {
   background-color: #ffffff;
   padding: 1em;
   margin-bottom: 16px;
-  border-radius: $borderRadius;
-
-  &.card-w-title {
-    padding-bottom: 2em;
-  }
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 1.5rem 0 1rem 0;
-  font-family: inherit;
-  font-weight: normal;
-  line-height: 1.2;
-  color: inherit;
+/* ---------- Pretty KPI cards ---------- */
+.kpi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e9ecef;
+  min-height: 84px;
+}
+.kpi-title { font-size: 14px; font-weight: 600; color: #2e2e2e; }
+.kpi-sub   { margin-top: 4px; font-size: 12px; color: #757575; }
+.kpi-value { font-size: 24px; font-weight: 700; letter-spacing: .2px; color: #2e2e2e; }
+.kpi-value.positive { color: #0a9150; }
+.kpi-value.negative { color: #c0392b; }
 
-  &:first-child {
-    margin-top: 0;
-  }
+/* ---------- Highlight rows (BTC/ETH/AAPL/TSLA) ---------- */
+.highlight-box {
+  height: 100px;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  border: 1px solid #e9ecef;
+}
+.highlight-box .initials {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+}
+.highlight-box .initials > span { font-size: 32px; font-weight: 800; letter-spacing: .5px; }
+.highlight-box .highlight-details {
+  width: 55%;
+  background-color: #ffffff;
+  padding: 1em;
+  border-left: 1px solid #eef1f4;
+}
+.highlight-box .highlight-details i {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: .5em;
+}
+.highlight-box .highlight-details > span:first-of-type {
+  display: block;
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 2px;
+}
+.highlight-box .count {
+  color: #2e2e2e;
+  font-size: 24px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 700;
 }
 
-h1 {
-  font-size: 2.5rem;
+/* ---------- Tasks / Activity lists minor polish ---------- */
+.task-list { list-style: none; margin: 0; padding: 0; }
+.task-list li {
+  padding: .5em .25em;
+  border-bottom: 1px solid #e9ecef;
+}
+.task-list .task-name { margin-left: .5rem; }
+
+/* Activity */
+.activity-list { list-style: none; margin: 0; padding: 0; }
+.activity-list li { border-bottom: 1px solid #e9ecef; padding: 16px 8px; }
+.activity-list .count {
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #1976d2;
+  font-weight: 700;
+  padding: 0.25em 0.5em;
+  border-radius: 6px;
 }
 
-h2 {
-  font-size: 2rem;
-}
-
-h3 {
-  font-size: 1.75rem;
-}
-
-h4 {
-  font-size: 1.5rem;
-}
-
-h5 {
-  font-size: 1.25rem;
-}
-
-h6 {
-  font-size: 1rem;
-}
-@mixin icon-override($icon) {
-  &:before {
-    content: $icon;
-  }
-}
-
-@mixin linear-gradient($top, $bottom) {
-  background: $top; /* Old browsers */
-  background: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
-}
-
-@mixin linear-gradient-left($left, $right) {
-  background: $left; /* Old browsers */
-  background: linear-gradient(to right, $left 0%, $right 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$left, endColorstr=$right,GradientType=1 ); /* IE6-9 */
-}
-
-@mixin opacity($opacity) {
-  opacity: $opacity;
-  $opacity-ie: $opacity * 100;
-  filter: alpha(opacity=$opacity-ie);
-}
-
-@mixin focused() {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: 0 0 0 0.2em $focusShadowColor;
-}
-
-@mixin focused-inset() {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: inset 0 0 0 0.2em $focusShadowColor;
-}
-
-@mixin clearfix {
-  &:after {
-    content: '';
-    display: table;
-    clear: both;
-  }
-}
-mark {
-  background: #fff8e1;
-  padding: 0.25rem 0.4rem;
-  border-radius: $borderRadius;
-  font-family: monospace;
-}
-
-blockquote {
-  margin: 1rem 0;
-  padding: 0 2rem;
-  border-left: 4px solid #90a4ae;
-}
-
-hr {
-  border-top: solid $dividerColor;
-  border-width: 1px 0 0 0;
-  margin: 1rem 0;
-}
-
-p {
-  margin: 0 0 1rem 0;
-  line-height: 1.5;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-/* Code Highlight */
-.docs {
-  pre[class*='language-'] {
-    padding: 0 !important;
-    background: transparent;
-    overflow: visible;
-
-    > code {
-      border-left: 0 none;
-      box-shadow: none !important;
-      font-size: 14px;
+/* ---------- Responsive table tweak ---------- */
+@media screen and (max-width: 960px) {
+  ::v-deep(.p-datatable).p-datatable-customers {
+    .p-datatable-thead > tr > th,
+    .p-datatable-tfoot > tr > td {
+      display: none !important;
     }
-  }
-}
-/* Footer */
-$footerBgColor: #ffffff;
-.dashboard {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica,
-    Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-  background-color: #edf0f5;
-  .summary {
-    position: relative;
-
-    .title {
-      font-size: 20px;
-    }
-
-    .detail {
-      color: $textSecondaryColor;
-      display: block;
-      margin-top: 10px;
-    }
-
-    .count {
-      color: #ffffff;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      padding: 7px 14px;
-      border-radius: $borderRadius;
-
-      &.visitors {
-        background-color: #20d077;
-      }
-
-      &.purchases {
-        background-color: #f9c851;
-      }
-
-      &.revenue {
-        background-color: #007be5;
-      }
-    }
-  }
-
-  .highlight-box {
-    height: 100px;
-    display: flex;
-    @include clearfix();
-
-    .initials {
-      height: 100%;
-      width: 50%;
-      text-align: center;
-      padding: 1em;
-
-      > span {
-        font-size: 48px;
-      }
-    }
-
-    .highlight-details {
-      height: 100%;
-      background-color: #ffffff;
-      width: 50%;
-      padding: 1em;
-
-      i {
-        font-size: 18px;
-        vertical-align: middle;
-        margin-right: 0.5em;
-      }
-
-      .count {
-        color: $textSecondaryColor;
-        font-size: 36px;
-        margin-top: 4px;
-        display: block;
-      }
-    }
-  }
-
-  .task-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-      padding: 0.5em 0.25em;
-      border-bottom: 1px solid $dividerColor;
-      @include clearfix();
-    }
-
-    .p-checkbox {
-      vertical-align: middle;
-      margin-right: 0.5em;
-    }
-
-    .task-name {
-      vertical-align: middle;
-    }
-
-    i {
-      float: right;
-      font-size: 24px;
-      color: $textSecondaryColor;
-    }
-
-    .p-panel-content {
-      min-height: 256px;
-    }
-  }
-
-  .contact-form {
-    .p-panel-content {
-      min-height: 256px;
-    }
-  }
-
-  .contacts {
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        border-bottom: 1px solid $dividerColor;
-
-        button {
-          padding: 9px;
-          width: 100%;
-          box-sizing: border-box;
-          text-decoration: none;
-          position: relative;
-          display: block;
-          border-radius: 2px;
-          transition: background-color 0.2s;
-
-          .name {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            font-size: 18px;
-          }
-
-          .email {
-            position: absolute;
-            right: 10px;
-            top: 30px;
-            font-size: 14px;
-            color: $textSecondaryColor;
-          }
-
-          &:hover {
-            cursor: pointer;
-            background-color: #eeeeee;
-          }
-        }
-
-        &:last-child {
-          border: 0;
-        }
-      }
-    }
-
-    .p-panel-content {
-      min-height: 256px;
-    }
-  }
-
-  .activity-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      border-bottom: 1px solid $dividerColor;
-      padding: 16px 8px;
-
-      .count {
-        font-size: 24px;
-        color: #ffffff;
-        background-color: #007be5;
-        font-weight: 700;
-        padding: 0.25em 0.5em;
-        display: inline-block;
-        border-radius: $borderRadius;
+    .p-datatable-tbody > tr {
+      border-bottom: 1px solid #dee2e6;
+      > td {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 0 none !important;
+        width: 100% !important;
       }
     }
   }
 }
+
+/* ---------- Page background ---------- */
+.dashboard { background-color: #edf0f5; }
 </style>

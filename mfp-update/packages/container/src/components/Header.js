@@ -44,7 +44,7 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
             to="/"
             sx={{ textDecoration: 'none' }}
           >
-            App
+            Finance App
           </Typography>
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
@@ -65,7 +65,7 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
               component={RouterLink}
               to="/shop"          // -> Products-MFE
             >
-              Shop
+              Markets
             </Button>
             {/* Cart mit optionalem Badge für cartCount */}
             <Button
@@ -75,7 +75,7 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
             >
               {typeof cartCount === 'number' ? (
                 <Badge badgeContent={cartCount} color="primary">
-                  Cart
+                  Portfolio
                 </Badge>
               ) : (
                 'Cart'
