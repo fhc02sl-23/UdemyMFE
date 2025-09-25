@@ -47,8 +47,19 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
             App
           </Typography>
 
-          {/* MITTE: Navigation zu Shop & Cart */}
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+          {/* 👇 Nur wenn eingeloggt → Dashboard-Button */}
+          {isSignedIn && (
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              color="primary"
+              sx={{ my: 1, mx: 1.5 }}
+              component={RouterLink}
+              to="/dashboard"
+            >
+              Dashboard
+            </Button>
+           {/* MITTE: Navigation zu Shop & Cart */}
             <Button
               color="inherit"
               component={RouterLink}
@@ -56,7 +67,6 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
             >
               Shop
             </Button>
-
             {/* Cart mit optionalem Badge für cartCount */}
             <Button
               color="inherit"
@@ -71,21 +81,26 @@ export default function Header({ isSignedIn, onSignOut, cartCount }) {
                 'Cart'
               )}
             </Button>
+            </Box>
+           )}
+
+           <Box>
+              {/* RECHTE SEITE: Login/Logout */}
+              <Button
+                color="primary"
+                variant="outlined"
+                sx={{ my: 1, mx: 1.5 }}
+                component={RouterLink}
+                // Wenn eingeloggt: klick führt Logout aus & Link geht nach "/"
+                // Wenn NICHT eingeloggt: Link zur Auth-Seite
+                to={isSignedIn ? '/' : '/auth/signin'}
+                onClick={onClick}
+              >
+                {isSignedIn ? 'Logout' : 'Login'}
+              </Button>
+            </Box>
           </Box>
 
-          {/* RECHTE SEITE: Login/Logout */}
-          <Button
-            color="primary"
-            variant="outlined"
-            sx={{ my: 1, mx: 1.5 }}
-            component={RouterLink}
-            // Wenn eingeloggt: klick führt Logout aus & Link geht nach "/"
-            // Wenn NICHT eingeloggt: Link zur Auth-Seite
-            to={isSignedIn ? '/' : '/auth/signin'}
-            onClick={onClick}
-          >
-            {isSignedIn ? 'Logout' : 'Login'}
-          </Button>
         </Toolbar>
       </AppBar>
     </React.Fragment>

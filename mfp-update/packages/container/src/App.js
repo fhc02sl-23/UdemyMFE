@@ -86,21 +86,30 @@ const removeFromCart = useCallback((cartItemId) => {
             {/* 👇 NEU: SHOP (PRODUCTS-MFE) – Container übergibt addToCart */}
             <Route
               path="/shop/*"
-              element={<ProductsLazy onAddToCart={addToCart} />}
+              element={
+                isSignedIn ? (
+                  <ProductsLazy onAddToCart={addToCart} />
+                ) : (
+                  <Navigate to="/auth/signin" />
+                )
+              }
             />
 
             {/* 👇 NEU: CART (BASKET-MFE) – Container übergibt items + Aktionen */}
             <Route
               path="/cart/*"
               element={
-                <BasketLazy
-                  items={cartItems}
-                  onRemove={removeFromCart}
-                  onClear={clearCart}
-                />
+                isSignedIn ? (
+                  <BasketLazy
+                    items={cartItems}
+                    onRemove={removeFromCart}
+                    onClear={clearCart}
+                  />
+                ) : (
+                  <Navigate to="/auth/signin" />
+                )
               }
             />
-
             {/* MARKETING (MFE) – Fallback */}
             <Route path="/*" element={<MarketingLazy />} />
           </Routes>
