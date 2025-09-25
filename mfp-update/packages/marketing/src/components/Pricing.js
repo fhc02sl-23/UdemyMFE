@@ -24,7 +24,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <MaterialLink component={RouterLink} to="/" color="inherit" sx={{ textDecoration: 'none' }}>
-        Your Website
+      Simon Litrop
       </MaterialLink>{' '}
       {new Date().getFullYear()}
       {'.'}

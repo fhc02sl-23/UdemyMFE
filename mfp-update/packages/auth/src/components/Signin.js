@@ -18,7 +18,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-        Your Website
+        Simon Litrop
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
