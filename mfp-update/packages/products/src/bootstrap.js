@@ -1,42 +1,44 @@
-// packages/container/src/components/ProductsApp.js
-// Wrapper für das Products-MFE (React Router v6-kompatibel):
-// - mount() des Remotes aufrufen
-// - MFE -> Container: onNavigate
-// - Container -> MFE: onParentNavigate
-// - KEIN useHistory (das gibt es in v6 nicht)
+// packages/products/src/bootstrap.js
 
-import React, { useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { mount as mountProducts } from 'products/ProductsApp';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { createMemoryHistory, createBrowserHistory } from 'history';
+import App from './App';
 
-export default function ProductsApp({ onAddToCart }) {
-  const ref = useRef(null);                 // div, in das das MFE rendert
-  const location = useLocation();           // aktuelle Browser-URL
-  const navigate = useNavigate();           // zum Navigieren im Container
-  const onParentNavigateRef = useRef(null); // wird vom MFE geliefert
-
-  // 1) MFE einmal mounten
-  useEffect(() => {
-    const { onParentNavigate } = mountProducts(ref.current, {
-      initialPath: location.pathname,       // MFE startet auf aktueller URL
-      onNavigate: ({ pathname }) => {       // MFE meldet interne Navigation
-        if (location.pathname !== pathname) {
-          navigate(pathname);
-        }
-      },
-      onAddToCart,                          // Callback vom Container nach unten durchreichen
+const mount = (
+  el,
+  { onNavigate, defaultHistory, initialPath, onAddToCart } = {}
+) => {
+  const history =
+    defaultHistory ||
+    createMemoryHistory({
+      initialEntries: [initialPath || '/shop'],
     });
 
-    onParentNavigateRef.current = onParentNavigate;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // nur beim ersten Rendern
+  if (onNavigate) {
+    history.listen((update) => {
+      onNavigate({ pathname: update.location.pathname });
+    });
+  }
 
-  // 2) Wenn sich die Browser-URL ändert (Back/Forward), MFE nachziehen
-  useEffect(() => {
-    if (onParentNavigateRef.current) {
-      onParentNavigateRef.current({ pathname: location.pathname });
-    }
-  }, [location]);
+  const root = createRoot(el);
+  root.render(<App history={history} onAddToCart={onAddToCart} />);
 
-  return <div ref={ref} />;
+  return {
+    onParentNavigate({ pathname: nextPathname }) {
+      const { pathname } = history.location;
+      if (pathname !== nextPathname) {
+        history.push(nextPathname);
+      }
+    },
+  };
+};
+
+if (process.env.NODE_ENV === 'development') {
+  const devRoot = document.querySelector('#_products-dev-root');
+  if (devRoot) {
+    mount(devRoot, { defaultHistory: createBrowserHistory() });
+  }
 }
+
+export { mount };
