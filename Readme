@@ -1,1 +1,43 @@
-Readme
+# dsr-finance-mfe-prototype
+
+Ein Prototyp für eine **Microfrontend-Architektur** im Finanz-/E-Commerce-Kontext.  
+Das Projekt zeigt, wie verschiedene fachliche Bereiche (`auth`, `basket`, `dashboard`, `marketing`, `products`) als eigenständige Frontend-Module entwickelt und in einem **Container** integriert werden können.
+
+---
+
+## 🚀 Features
+
+- **Microfrontend-Architektur** mit separaten Packages
+- Module:
+  - `auth` – Benutzer-Authentifizierung (React)
+  - `basket` – Warenkorb (React)
+  - `dashboard` – Nutzer-Dashboard (**Vue**)
+  - `marketing` – Marketing-Ansichten (React)
+  - `products` – Produktdarstellung (React)
+  - `container` – Host/Container, integriert alle Module
+
+---
+
+## 🛠️ Technologien
+
+- **JavaScript/TypeScript**
+- **Node.js / npm**
+- **Webpack Module Federation** (für Microfrontend-Integration)
+- **React** (Mehrheit der Module)
+- **Vue** (für das Dashboard-Modul)
+
+---
+
+## 📂 Projektstruktur
+
+```bash
+dsr-finance-mfe-prototype/
+├── packages/
+│   ├── auth               # Authentifizierung (React)
+│   ├── basket             # Warenkorb (React)
+│   ├── container          # Host-App (Shell)
+│   ├── dashboard          # Nutzer-Dashboard (Vue)
+│   ├── marketing          # Marketing-Module (React)
+│   └── products           # Produktmodule (React)
+├── package.json           # Dependencies & Scripts
+└── README.md              # Projektbeschreibung
